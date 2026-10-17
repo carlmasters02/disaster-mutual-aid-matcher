@@ -1,0 +1,21 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+Neo4j-*.txt
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime data (LLM cache can contain generated plan text)
+data/llm_cache.json
+
+# Session logs / editor
+session-*.md
+.vscode/
+.idea/
+.DS_Store

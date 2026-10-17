@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tsunagu つなぐ — 災害時相互扶助マッチャー</title>
+<link rel="stylesheet" href="/static/vendor/leaflet.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="disclaimer">登場する人物・団体はすべて架空の合成データです / All residents are fictional, synthetic data.</div>
+
+<header id="topbar">
+  <div class="brand"><span id="conn" class="conn" title="WebSocket"></span>つなぐ <span class="brand-sub">Tsunagu — Disaster Mutual-Aid Matcher</span></div>
+  <div class="slot-toggle" role="group" aria-label="time slot">
+    <button id="slot-night" class="slot-btn active">🌙 平日 02:00</button>
+    <button id="slot-day" class="slot-btn">☀️ 平日 14:00</button>
+  </div>
+  <div class="metrics">
+    <span class="metric">見守り <b id="m-cov">--%</b></span>
+    <span class="metric">未カバー <b id="m-unc">--</b></span>
+    <span class="metric">平均ETA <b id="m-eta">--分</b></span>
+  </div>
+  <div class="quake-controls">
+    <label>M <input id="q-mag" type="range" min="5.0" max="7.5" step="0.1" value="7.0"><span id="q-mag-v">7.0</span></label>
+    <button id="q-arm" class="btn warn">地震 Epicenter</button>
+    <button id="q-golden" class="btn" title="Golden scenario: epicenter at 京島三丁目">🎯 Demo</button>
+    <button id="q-step" class="btn" disabled>▶ Step</button>
+    <button id="q-auto" class="btn" disabled>⏩ Auto</button>
+    <button id="q-compare" class="btn" disabled>比較 Compare</button>
+    <button id="btn-reset" class="btn">↺ Reset</button>
+    <button id="btn-report" class="btn" disabled>報告 Report</button>
+  </div>
+</header>
+
+<main id="layout">
+  <aside id="left">
+    <section class="card">
+      <h3>申込 Intake</h3>
+      <textarea id="intake-text" rows="4" placeholder="例: 母は82歳、歩行器を使用、3階に一人暮らし、エレベーターなし。ベトナム語しか話せません。"></textarea>
+      <div class="row"><button id="intake-sample" class="btn">例文</button><button id="intake-btn" class="btn primary">解析して追加 Parse &amp; Add</button></div>
+      <div id="intake-result"></div>
+    </section>
+    <section class="card" id="person-card">
+      <h3>住民 Resident</h3>
+      <div id="person-detail" class="muted">地図上の住民をクリック / Click a person on the map</div>
+    </section>
+  </aside>
+
+  <div id="map-wrap">
+    <div id="map"></div>
+    <canvas id="fallback-map" style="display:none"></canvas>
+    <div id="quake-banner" class="hidden"></div>
+    <div id="power-banner" class="hidden">⚡ 停電中 — 在宅酸素の方は発電機のある避難所へ / Power outage</div>
+  </div>
+
+  <aside id="right">
+    <section class="card">
+      <h3>派遣メッセージ Dispatches</h3>
+      <div id="dispatch-feed"></div>
+    </section>
+    <section class="card">
+      <h3>エスカレーション Escalations</h3>
+      <div id="escalation-feed" class="muted">なし / none</div>
+    </section>
+  </aside>
+</main>
+
+<footer id="bottom">
+  <div id="chart-wrap"><canvas id="cov-chart"></canvas></div>
+  <div id="gaps">
+    <div class="gap-tabs">
+      <button class="gap-tab active" data-tab="slot">時間帯ギャップ</button>
+      <button class="gap-tab" data-tab="spof">単一障害点</button>
+      <button class="gap-tab" data-tab="roads">重要道路</button>
+      <button class="gap-tab" data-tab="shelter">避難所</button>
+    </div>
+    <div id="gap-content" class="muted">—</div>
+  </div>
+</footer>
+
+<div id="report-modal" class="hidden">
+  <div id="report-body">
+    <button id="report-close" class="btn">✕</button>
+    <div id="report-content"></div>
+  </div>
+</div>
+
+<script src="/static/vendor/leaflet.js"></script>
+<script src="/static/vendor/chart.umd.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
